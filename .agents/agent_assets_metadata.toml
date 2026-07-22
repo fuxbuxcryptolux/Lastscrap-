@@ -1,0 +1,13 @@
+uploads = []
+
+[[generated]]
+id = "4jdMQCxqgWboB5_3DRv8Q"
+uri = "file://artifacts/lastscrap/assets/images/game/map_wide.png"
+type = "image"
+title = "open industrial battlemap"
+
+[[outputs]]
+id = "RH8sPR-tvBKIQtgTWp2Zc"
+uri = "file://.local/lastscrap-game-overview.md"
+type = "text"
+title = "Last Scrap — Game Overview"

@@ -1,0 +1,18 @@
+/* Prevent the browser from scrolling/panning the page during gameplay.
+   touch-action: manipulation allows tap+double-tap but disables scroll panning,
+   which stops the viewport from moving when the joystick is dragged. */
+html, body {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  touch-action: manipulation;
+}
+
+#root {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}

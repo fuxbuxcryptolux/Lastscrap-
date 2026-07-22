@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "Last Scrap",
+    "slug": "lastscrap",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "lastscrap",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#080808"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.buzzfuzz.lastscrap"
+    },
+    "android": {
+      "package": "com.buzzfuzz.lastscrap",
+      "googleMobileAdsAppId": "ca-app-pub-7612157133930737~6354683608"
+    },
+    "web": {
+      "favicon": "./assets/images/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "origin": "https://replit.com/"
+        }
+      ],
+      "expo-font",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "13dfdef0-cdfd-4880-81fe-5d4ca5d099b8"
+      }
+    }
+  }
+}

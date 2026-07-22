@@ -1,0 +1,111 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: leaderboard
+    description: Boss Rush leaderboard operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /leaderboard/boss-rush:
+    get:
+      operationId: getBossRushLeaderboard
+      tags: [leaderboard]
+      summary: Get Boss Rush leaderboard
+      description: Returns the top 10 Boss Rush entries ordered by wave depth
+      responses:
+        "200":
+          description: Top 10 leaderboard entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaderboardEntry"
+    post:
+      operationId: submitBossRushScore
+      tags: [leaderboard]
+      summary: Submit a Boss Rush score
+      description: Submits a score; only stored if it ranks in the top 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaderboardInput"
+      responses:
+        "200":
+          description: Submission result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaderboardSubmitResult"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    LeaderboardEntry:
+      type: object
+      required: [id, playerName, wave, kills, scrap, createdAt]
+      properties:
+        id:
+          type: string
+        playerName:
+          type: string
+        wave:
+          type: integer
+        kills:
+          type: integer
+        scrap:
+          type: integer
+        createdAt:
+          type: string
+    LeaderboardInput:
+      type: object
+      required: [playerName, wave, kills, scrap]
+      properties:
+        playerName:
+          type: string
+          minLength: 1
+          maxLength: 24
+        wave:
+          type: integer
+          minimum: 1
+        kills:
+          type: integer
+          minimum: 0
+        scrap:
+          type: integer
+          minimum: 0
+    LeaderboardSubmitResult:
+      type: object
+      required: [ranked, rank]
+      properties:
+        ranked:
+          type: boolean
+        rank:
+          type: ["integer", "null"]

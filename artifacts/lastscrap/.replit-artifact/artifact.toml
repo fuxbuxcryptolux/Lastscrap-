@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/"
+title = "Last Scrap"
+version = "1.0.0"
+id = "artifacts/lastscrap"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/" ]
+localPort = 18491
+
+[services.development]
+run = "pnpm --filter @workspace/lastscrap run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/lastscrap", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/lastscrap", "run", "serve" ]
+
+[services.env]
+PORT = "18491"
+BASE_PATH = "/"

@@ -1,0 +1,6 @@
+- [Last Scrap Expo scaffold issue](lastscrap-expo-tabs.md) — the scaffold's (tabs) directory crashes Metro; must be removed for the game layout to work.
+- [RN Web pointer-events gotcha](rn-web-pointerevents.md) — box-none in style is ignored by CSS; use the prop form. Later JSX = higher z-order; PanResponder elements must render after full-width overlays.
+- [Camera/world expansion breaks spawn pacing](lastscrap-camera-spawn-pacing.md) — off-screen spawn margins must scale with viewport, not a pre-camera fixed pixel value, or enemies spawn on top of the player.
+- [Contact-damage stacking fix](lastscrap-contact-invuln.md) — cap simultaneous melee attackers with a per-hit invuln window + lump damage, not per-frame damage per attacker.
+- [Metro web global vs window](metro-web-global.md) — globalThis/global in Metro's web bundle is the RN shim, not window; use document/window directly for DOM APIs.
+- [Last Scrap wave-1 difficulty](lastscrap-wave1-difficulty.md) — stationary player dies in ~10s even on wave 1; test plans holding fire without movement will fail, not a regression.
