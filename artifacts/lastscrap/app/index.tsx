@@ -19,6 +19,7 @@ import { initSound } from "@/src/utils/sound";
 import ScrapyardShop, { loadEquippedUniform } from "@/src/components/ScrapyardShop";
 import SettingsPanel from "@/src/components/SettingsPanel";
 import ModeSelect from "@/src/components/ModeSelect";
+import StoryModeSelect from "@/src/components/StoryModeSelect";
 import { UNIFORMS, UniformId } from "@/src/game/uniforms";
 
 const MENU_BG = require("../assets/images/menu-bg.png");
@@ -33,6 +34,7 @@ export default function MainMenu() {
   const [showScrapyard, setShowScrapyard] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showModeSelect, setShowModeSelect] = useState(false);
+  const [showStoryMode, setShowStoryMode] = useState(false);
   const [equippedUniform, setEquippedUniform] = useState<UniformId>("standard");
 
   useEffect(() => {
@@ -68,6 +70,13 @@ export default function MainMenu() {
       params: { newGame: "1", gameMode: mode },
     } as any);
   };
+  const handleStoryDeploy = (missionId: number) => {
+    setSave(null);
+    router.replace({
+      pathname: "/game",
+      params: { newGame: "1", gameMode: "story", missionId: String(missionId) },
+    } as any);
+  };
   const handleRigDefence = () => {
     router.replace({ pathname: "/game", params: { newGame: "1" } } as any);
   };
@@ -91,10 +100,20 @@ export default function MainMenu() {
     );
   }
 
+  if (showStoryMode) {
+    return (
+      <StoryModeSelect
+        onDeploy={handleStoryDeploy}
+        onBack={() => { setShowStoryMode(false); setShowModeSelect(true); }}
+      />
+    );
+  }
+
   if (showModeSelect) {
     return (
       <ModeSelect
         onSelect={handleModeSelected}
+        onSelectStory={() => { setShowModeSelect(false); setShowStoryMode(true); }}
         onBack={() => setShowModeSelect(false)}
       />
     );

@@ -14,6 +14,8 @@ import { storage } from "@/src/utils/storage";
 import { BEST_KEY, BEST_KEY_BOSS, BEST_KEY_SCAVENGE } from "@/src/game/storage";
 import type { GameMode } from "@/src/game/types";
 import { fetchBossRushLeaderboard, type LeaderboardEntry } from "@/src/utils/leaderboard";
+import { loadCampaignProgress } from "@/src/components/StoryModeSelect";
+import { MISSIONS } from "@/src/game/missions";
 
 type Best = { wave: number; scrap: number; kills: number };
 
@@ -119,10 +121,11 @@ function BossRushLeaderboardPanel() {
 
 type Props = {
   onSelect: (mode: GameMode) => void;
+  onSelectStory: () => void;
   onBack: () => void;
 };
 
-export default function ModeSelect({ onSelect, onBack }: Props) {
+export default function ModeSelect({ onSelect, onSelectStory, onBack }: Props) {
   const insets = useSafeAreaInsets();
   const topPad = Platform.OS === "web" ? 67 : insets.top;
   const botPad = Platform.OS === "web" ? 34 : insets.bottom;
@@ -130,6 +133,7 @@ export default function ModeSelect({ onSelect, onBack }: Props) {
   const [rigBest, setRigBest] = useState<Best | null>(null);
   const [bossBest, setBossBest] = useState<Best | null>(null);
   const [scavengeBest, setScavengeBest] = useState<Best | null>(null);
+  const [storyCompleted, setStoryCompleted] = useState<number | null>(null);
 
   useEffect(() => {
     const parseBest = async (key: string): Promise<Best | null> => {
@@ -143,10 +147,12 @@ export default function ModeSelect({ onSelect, onBack }: Props) {
       parseBest(BEST_KEY),
       parseBest(BEST_KEY_BOSS),
       parseBest(BEST_KEY_SCAVENGE),
-    ]).then(([r, b, sc]) => {
+      loadCampaignProgress(),
+    ]).then(([r, b, sc, campaign]) => {
       setRigBest(r);
       setBossBest(b);
       setScavengeBest(sc);
+      setStoryCompleted(campaign.completedMissions.length);
     });
   }, []);
 
@@ -175,6 +181,16 @@ export default function ModeSelect({ onSelect, onBack }: Props) {
         contentContainerStyle={styles.cards}
         showsVerticalScrollIndicator={false}
       >
+        <ModeCard
+          tag="[ CAMPAIGN ]"
+          title="STORY MODE"
+          description="7 scripted missions with unique objectives — escape, escort, sabotage, and more. Complete missions to bank permanent scrap bonuses."
+          bestLabel="COMPLETED"
+          bestValue={storyCompleted != null ? `${storyCompleted}/${MISSIONS.length}` : "—"}
+          accentColor="#8E44AD"
+          icon={<MaterialCommunityIcons name="map-marker-path" size={22} color="#8E44AD" />}
+          onPress={onSelectStory}
+        />
         <ModeCard
           tag="[ MODE · 01 ]"
           title="DEFEND THE RIG"
